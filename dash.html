@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>לוח המשחק</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #003366, #0055aa);
+      color: white;
+      padding: 2em;
+    }h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+.scores {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+  margin-bottom: 2em;
+}
+
+.score-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1em 2em;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+}
+
+.category {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1em;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.category h2 {
+  margin-bottom: 1em;
+}
+
+.question-card {
+  background-color: #ffffff22;
+  margin: 0.5em 0;
+  padding: 0.8em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.question-card:hover {
+  background-color: #ffffff44;
+}
+
+  </style>
+</head>
+<body>
+  <h1>לוח המשחק</h1>
+  <div class="scores">
+    <div class="score-box">
+      <h3>קבוצה א'</h3>
+      <p>0 נקודות</p>
+    </div>
+    <div class="score-box">
+      <h3>קבוצה ב'</h3>
+      <p>0 נקודות</p>
+    </div>
+  </div>  <div class="categories">
+    <div class="category">
+      <h2>שם המספר</h2>
+      <div class="question-card">שאלה 1</div>
+      <div class="question-card">שאלה 2</div>
+      <div class="question-card">שאלה 3</div>
+      <div class="question-card">שאלה 4</div>
+      <div class="question-card">שאלה 5</div>
+    </div>
+    <div class="category">
+      <h2>משקלים</h2>
+      <div class="question-card">שאלה 1</div>
+      <div class="question-card">שאלה 2</div>
+      <div class="question-card">שאלה 3</div>
+      <div class="question-card">שאלה 4</div>
+      <div class="question-card">שאלה 5</div>
+    </div>
+    <div class="category">
+      <h2>בניינים</h2>
+      <div class="question-card">שאלה 1</div>
+      <div class="question-card">שאלה 2</div>
+      <div class="question-card">שאלה 3</div>
+      <div class="question-card">שאלה 4</div>
+      <div class="question-card">שאלה 5</div>
+    </div>
+  </div>
+</body>
+</html>
