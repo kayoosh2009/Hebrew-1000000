@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שאלה 5 - שם המספר</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #003366, #0055aa);
+      color: white;
+      padding: 2em;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+    .question {
+      font-size: 1.5em;
+      margin-bottom: 2em;
+    }
+    .options {
+      display: grid;
+      gap: 1em;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .option {
+      background-color: #ffffff22;
+      padding: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.2em;
+    }
+    .option:hover {
+      background-color: #ffffff44;
+    }
+    .option.disabled {
+      background-color: #555555;
+      color: #aaaaaa;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .result {
+      margin-top: 2em;
+      font-size: 1.2em;
+    }
+    .team-buttons {
+      margin-top: 1em;
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+    }
+    .team-button, .return-button {
+      background-color: #ffffff22;
+      color: white;
+      padding: 0.8em 1.5em;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .team-button:hover, .return-button:hover {
+      background-color: #ffffff44;
+    }
+  </style>
+</head>
+<body>
+  <h1>שם המספר - שאלה 5</h1>
+  <div class="question">עומר חצה __ גשרים בדרך.</div>
+  <div class="options">
+    <div class="option" data-answer="ארבע">ארבע</div>
+    <div class="option" data-answer="ארבעת">ארבעת</div>
+    <div class="option" data-answer="שלוש    ">שלוש</div>
+    <div class="option" data-answer="ארבעה">ארבעה</div>
+  </div>
+  <div class="result" id="result"></div>
+
+  <script>
+    const correctAnswer = "ארבעה";
+    const options = document.querySelectorAll('.option');
+    const resultDiv = document.getElementById('result');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        // Отключаем все кнопки
+        options.forEach(opt => opt.classList.add('disabled'));
+
+        const selectedAnswer = option.getAttribute('data-answer');
+        if (selectedAnswer === correctAnswer) {
+          resultDiv.innerHTML = `
+            <p>תשובה נכונה!</p>
+            <div class="team-buttons">
+              <button class="team-button" onclick="awardPoints('teamA')">תן 125 נקודות לקבוצה א'</button>
+              <button class="team-button" onclick="awardPoints('teamB')">תן 125 נקודות לקבוצה ב'</button>
+            </div>
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <p>תשובה שגויה. התשובה הנכונה היא: ${correctAnswer}</p>
+            <a href="../dash.html" class="return-button">חזור ללוח המשחק</a>
+          `;
+        }
+      });
+    });
+
+    function awardPoints(team) {
+      // Получаем текущие очки из localStorage
+      let teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
+      let teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+
+      // Начисляем 125 очков выбранной команде
+      if (team === 'teamA') {
+        teamAScore += 125;
+        localStorage.setItem('teamAScore', teamAScore.toString());
+      } else if (team === 'teamB') {
+        teamBScore += 125;
+        localStorage.setItem('teamBScore', teamBScore.toString());
+      }
+
+      // Отладка: выводим очки в консоль
+      console.log(`Team A: ${teamAScore}, Team B: ${teamBScore}`);
+
+      // Перенаправляем на dash.html
+      window.location.href = '../dash.html';
+    }
+  </script>
+</body>
+</html>
