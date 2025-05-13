@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="he" dir="rtl">
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,95 +11,176 @@
       background: linear-gradient(to bottom, #003366, #0055aa);
       color: white;
       padding: 2em;
-    }h1 {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 1em;
-}
-
-.scores {
-  display: flex;
-  justify-content: center;
-  gap: 3em;
-  margin-bottom: 2em;
-}
-
-.score-box {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 1em 2em;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  text-align: center;
-}
-
-.categories {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2em;
-}
-
-.category {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 1em;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-
-.category h2 {
-  margin-bottom: 1em;
-}
-
-.question-card {
-  background-color: #ffffff22;
-  margin: 0.5em 0;
-  padding: 0.8em;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.question-card:hover {
-  background-color: #ffffff44;
-}
-
+      position: relative; /* Для позиционирования кнопки */
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 1em;
+    }
+    .scores {
+      display: flex;
+      justify-content: center;
+      gap: 3em;
+      margin-bottom: 2em;
+    }
+    .score-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1em 2em;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2em;
+    }
+    .category {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1em;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .category h2 {
+      margin-bottom: 1em;
+    }
+    .question-card {
+      display: block;
+      background-color: #ffffff22;
+      margin: 0.5em 0;
+      padding: 0.8em;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+    .question-card:hover {
+      background-color: #ffffff44;
+    }
+    .question-card.disabled {
+      background-color: #555555;
+      color: #aaaaaa;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .reset-button {
+      position: absolute;
+      top: 1em;
+      right: 1em; /* Позиция в правом верхнем углу */
+      background-color: #ffffff22;
+      color: white;
+      padding: 0.8em 1.5em;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      opacity: 0; /* Скрыта по умолчанию */
+      transition: opacity 0.3s ease; /* Плавное появление */
+    }
+    .reset-button:hover {
+      opacity: 1; /* Появляется при наведении */
+      background-color: #ffffff44;
+    }
   </style>
 </head>
 <body>
+  <button class="reset-button" onclick="resetGame()">消去</button>
   <h1>לוח המשחק</h1>
   <div class="scores">
     <div class="score-box">
       <h3>קבוצה א'</h3>
-      <p>0 נקודות</p>
+      <p id="teamAScore">0 נקודות</p>
     </div>
     <div class="score-box">
       <h3>קבוצה ב'</h3>
-      <p>0 נקודות</p>
+      <p id="teamBScore">0 נקודות</p>
     </div>
-  </div>  <div class="categories">
+  </div>
+  <div class="categories">
     <div class="category">
       <h2>שם המספר</h2>
-      <div class="question-card">שאלה 1</div>
-      <div class="question-card">שאלה 2</div>
-      <div class="question-card">שאלה 3</div>
-      <div class="question-card">שאלה 4</div>
-      <div class="question-card">שאלה 5</div>
+      <a href="questions/number_name_question1.html" class="question-card" id="number_name_1">שאלה 1</a>
+      <a href="questions/number_name_question2.html" class="question-card" id="number_name_2">שאלה 2</a>
+      <a href="questions/number_name_question3.html" class="question-card" id="number_name_3">שאלה 3</a>
+      <a href="questions/number_name_question4.html" class="question-card" id="number_name_4">שאלה 4</a>
+      <a href="questions/number_name_question5.html" class="question-card" id="number_name_5">שאלה 5</a>
     </div>
     <div class="category">
       <h2>משקלים</h2>
-      <div class="question-card">שאלה 1</div>
-      <div class="question-card">שאלה 2</div>
-      <div class="question-card">שאלה 3</div>
-      <div class="question-card">שאלה 4</div>
-      <div class="question-card">שאלה 5</div>
+      <a href="questions/weights_question1.html" class="question-card" id="weights_1">שאלה 1</a>
+      <a href="questions/weights_question2.html" class="question-card" id="weights_2">שאלה 2</a>
+      <a href="questions/weights_question3.html" class="question-card" id="weights_3">שאלה 3</a>
+      <a href="questions/weights_question4.html" class="question-card" id="weights_4">שאלה 4</a>
+      <a href="questions/weights_question5.html" class="question-card" id="weights_5">שאלה 5</a>
     </div>
     <div class="category">
       <h2>בניינים</h2>
-      <div class="question-card">שאלה 1</div>
-      <div class="question-card">שאלה 2</div>
-      <div class="question-card">שאלה 3</div>
-      <div class="question-card">שאלה 4</div>
-      <div class="question-card">שאלה 5</div>
+      <a href="questions/binyanim_question1.html" class="question-card" id="binyanim_1">שאלה 1</a>
+      <a href="questions/binyanim_question2.html" class="question-card" id="binyanim_2">שאלה 2</a>
+      <a href="questions/binyanim_question3.html" class="question-card" id="binyanim_3">שאלה 3</a>
+      <a href="questions/binyanim_question4.html" class="question-card" id="binyanim_4">שאלה 4</a>
+      <a href="questions/binyanim_question5.html" class="question-card" id="binyanim_5">שאלה 5</a>
     </div>
   </div>
+
+  <script>
+    // Функция для блокировки кнопки
+    function disableQuestion(id) {
+      const question = document.getElementById(id);
+      if (question) {
+        question.classList.add('disabled');
+        localStorage.setItem(id, 'disabled');
+      }
+    }
+
+    // Обновление очков на странице
+    function updateScores() {
+      const teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
+      const teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+      const teamAScoreElement = document.getElementById('teamAScore');
+      const teamBScoreElement = document.getElementById('teamBScore');
+      if (teamAScoreElement && teamBScoreElement) {
+        teamAScoreElement.textContent = `${teamAScore} נקודות`;
+        teamBScoreElement.textContent = `${teamBScore} נקודות`;
+      } else {
+        console.error('Score elements not found');
+      }
+      console.log(`Loaded scores - Team A: ${teamAScore}, Team B: ${teamBScore}`);
+    }
+
+    // Сброс игры
+    function resetGame() {
+      // Очищаем localStorage для кнопок и очков
+      const questions = document.querySelectorAll('.question-card');
+      questions.forEach(question => {
+        const id = question.id;
+        localStorage.removeItem(id);
+        question.classList.remove('disabled');
+      });
+      localStorage.setItem('teamAScore', '0');
+      localStorage.setItem('teamBScore', '0');
+      updateScores();
+      console.log('Game reset: All buttons unlocked, scores set to 0');
+    }
+
+    // Проверяем состояние кнопок и очки при загрузке
+    document.addEventListener('DOMContentLoaded', () => {
+      updateScores(); // Обновляем очки
+      const questions = document.querySelectorAll('.question-card');
+      questions.forEach(question => {
+        const id = question.id;
+        if (localStorage.getItem(id) === 'disabled') {
+          question.classList.add('disabled');
+        } else {
+          question.addEventListener('click', () => {
+            disableQuestion(id);
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
