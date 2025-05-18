@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שאלה 2 - משקלים</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #003366, #0055aa);
+      color: white;
+      padding: 2em;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+    .question {
+      font-size: 1.5em;
+      margin-bottom: 2em;
+    }
+    .options {
+      display: grid;
+      gap: 1em;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .option {
+      background-color: #ffffff22;
+      padding: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.2em;
+    }
+    .option:hover {
+      background-color: #ffffff44;
+    }
+    .option.disabled {
+      background-color: #555555;
+      color: #aaaaaa;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .option.correct {
+      background-color: #28a745;
+    }
+    .option.incorrect {
+      background-color: #dc3545;
+    }
+    .result {
+      margin-top: 2em;
+      font-size: 1.2em;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .result.show {
+      opacity: 1;
+    }
+    .team-buttons {
+      margin-top: 1em;
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+    }
+    .team-button, .return-button {
+      background-color: #ffffff22;
+      color: white;
+      padding: 0.8em 1.5em;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .team-button:hover, .return-button:hover {
+      background-color: #ffffff44;
+    }
+  </style>
+</head>
+<body>
+  <h1>משקלים - שאלה 2</h1>
+  <div class="question">מהו המשקל של הפועל "התעניין"?</div>
+  <div class="options">
+    <div class="option" data-answer="קטל">קטל</div>
+    <div class="option" data-answer="התקטל">התקטל</div>
+    <div class="option" data-answer="נקטל">נקטל</div>
+    <div class="option" data-answer="קטלן">קטלן</div>
+  </div>
+  <div class="result" id="result"></div>
 
+  <script>
+    const correctAnswer = "התקטל";
+    const options = document.querySelectorAll('.option');
+    const resultDiv = document.getElementById('result');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        options.forEach(opt => opt.classList.add('disabled'));
+
+        const selectedAnswer = option.getAttribute('data-answer');
+        if (selectedAnswer === correctAnswer) {
+          option.classList.add('correct');
+          resultDiv.innerHTML = `
+            <p>תשובה נכונה!</p>
+            <div class="team-buttons">
+              <button class="team-button" onclick="awardPoints('teamA')">תן 150 נקודות לקבוצה א'</button>
+              <button class="team-button" onclick="awardPoints('teamB')">תן 150 נקודות לקבוצה ב'</button>
+            </div>
+          `;
+        } else {
+          option.classList.add('incorrect');
+          options.forEach(opt => {
+            if (opt.getAttribute('data-answer') === correctAnswer) {
+              opt.classList.add('correct');
+            }
+          });
+          resultDiv.innerHTML = `
+            <p>תשובה שגויה. התשובה הנכונה היא: ${correctAnswer}</p>
+            <a href="../dash.html" class="return-button">חזור ללוח המשחק</a>
+          `;
+        }
+        resultDiv.classList.add('show');
+      });
+    });
+
+    function awardPoints(team) {
+      let teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
+      let teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+
+      if (team === 'teamA') {
+        teamAScore += 150;
+        localStorage.setItem('teamAScore', teamAScore.toString());
+      } else if (team === 'teamB') {
+        teamBScore += 150;
+        localStorage.setItem('teamBScore', teamBScore.toString());
+      }
+
+      console.log(`Team A: ${teamAScore}, Team B: ${teamBScore}`);
+      window.location.href = '../dash.html';
+    }
+  </script>
+</body>
+</html>
