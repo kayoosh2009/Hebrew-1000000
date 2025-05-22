@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>שאלה 5 - משקלים</title>
   <style>
     body {
@@ -82,26 +82,37 @@
 </head>
 <body>
   <h1>משקלים - שאלה 5</h1>
-  <div class="question">מהו המשקל של הפועל "התכתב"?</div>
-  <div class="options">
-    <div class="option" data-answer="התקטל">התקטל</div>
-    <div class="option" data-answer="קטל">קטל</div>
-    <div class="option" data-answer="הופעל">הופעל</div>
-    <div class="option" data-answer="פיעל">פיעל</div>
-  </div>
+  <div class="question">מה המשקל של "צומת"?</div>
+  <div class="options" id="optionsContainer"></div>
   <div class="result" id="result"></div>
 
   <script>
-    const correctAnswer = "התקטל";
-    const options = document.querySelectorAll('.option');
+    const answers = [
+      { text: "קטלה", correct: false },
+      { text: "קוטל", correct: true },     // ✅ второй — правильный
+      { text: "קוטלת", correct: false },
+      { text: "קטלה", correct: false }
+    ];
+
+    const optionsContainer = document.getElementById('optionsContainer');
     const resultDiv = document.getElementById('result');
+
+    answers.forEach(answer => {
+      const div = document.createElement('div');
+      div.classList.add('option');
+      div.textContent = answer.text;
+      div.setAttribute('data-correct', answer.correct);
+      optionsContainer.appendChild(div);
+    });
+
+    const options = document.querySelectorAll('.option');
 
     options.forEach(option => {
       option.addEventListener('click', () => {
         options.forEach(opt => opt.classList.add('disabled'));
 
-        const selectedAnswer = option.getAttribute('data-answer');
-        if (selectedAnswer === correctAnswer) {
+        const isCorrect = option.getAttribute('data-correct') === 'true';
+        if (isCorrect) {
           option.classList.add('correct');
           resultDiv.innerHTML = `
             <p>תשובה נכונה!</p>
@@ -113,13 +124,13 @@
         } else {
           option.classList.add('incorrect');
           options.forEach(opt => {
-            if (opt.getAttribute('data-answer') === correctAnswer) {
+            if (opt.getAttribute('data-correct') === 'true') {
               opt.classList.add('correct');
             }
           });
           resultDiv.innerHTML = `
-            <p>תשובה שגויה. התשובה הנכונה היא: ${correctAnswer}</p>
-            <a href="../dash.html" class="return-button">חזור ללוח המשחק</a>
+            <p>תשובה שגויה. התשובה הנכונה היא: קוטל</p>
+            <a href="dash.html" class="return-button">חזור ללוח המשחק</a>
           `;
         }
         resultDiv.classList.add('show');
@@ -139,7 +150,7 @@
       }
 
       console.log(`Team A: ${teamAScore}, Team B: ${teamBScore}`);
-      window.location.href = '../dash.html';
+      window.location.href = 'dash.html';
     }
   </script>
 </body>

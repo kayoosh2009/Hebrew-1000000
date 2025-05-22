@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>שאלה 5 - בניינים</title>
   <style>
     body {
@@ -101,7 +101,7 @@
         } else {
           resultDiv.innerHTML = `
             <p>תשובה שגויה. התשובה הנכונה היא: ${correctAnswer}</p>
-            <a href="../dash.html" class="return-button">חזור ללוח המשחק</a>
+            <a href="dash.html" class="return-button">חזור ללוח המשחק</a>
           `;
         }
       });
@@ -120,7 +120,7 @@
       }
 
       console.log(`Team A: ${teamAScore}, Team B: ${teamBScore}`);
-      window.location.href = '../dash.html';
+      window.location.href = 'dash.html';  // исправлено здесь
     }
   </script>
 </body>

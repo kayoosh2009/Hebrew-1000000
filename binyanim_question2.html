@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>שאלה 2 - בניינים</title>
   <style>
     body {
@@ -44,9 +44,20 @@
       cursor: not-allowed;
       pointer-events: none;
     }
+    .option.correct {
+      background-color: #28a745;
+    }
+    .option.incorrect {
+      background-color: #dc3545;
+    }
     .result {
       margin-top: 2em;
       font-size: 1.2em;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .result.show {
+      opacity: 1;
     }
     .team-buttons {
       margin-top: 1em;
@@ -72,25 +83,40 @@
 <body>
   <h1>בניינים - שאלה 2</h1>
   <div class="question">מה הבניין של הפועל התלבש?</div>
-  <div class="options">
-    <div class="option" data-answer="הפעיל">הפעיל</div>
-    <div class="option" data-answer="התפעל">התפעל</div>
-    <div class="option" data-answer="פיעל">פיעל</div>
-    <div class="option" data-answer="נפעל">נפעל</div>
-  </div>
+  <div class="options" id="optionsContainer"></div>
   <div class="result" id="result"></div>
 
   <script>
-    const correctAnswer = "התפעל";
-    const options = document.querySelectorAll('.option');
+    const answers = [
+      { text: "פיעל", correct: false },
+      { text: "התפעל", correct: true }, // ✅ נכון
+      { text: "נפעל", correct: false },
+      { text: "הפעיל", correct: false }
+    ];
+
+    const optionsContainer = document.getElementById('optionsContainer');
     const resultDiv = document.getElementById('result');
+
+    // Shuffle answers to randomize order
+    answers.sort(() => Math.random() - 0.5);
+
+    answers.forEach(answer => {
+      const div = document.createElement('div');
+      div.classList.add('option');
+      div.textContent = answer.text;
+      div.setAttribute('data-correct', answer.correct);
+      optionsContainer.appendChild(div);
+    });
+
+    const options = document.querySelectorAll('.option');
 
     options.forEach(option => {
       option.addEventListener('click', () => {
         options.forEach(opt => opt.classList.add('disabled'));
 
-        const selectedAnswer = option.getAttribute('data-answer');
-        if (selectedAnswer === correctAnswer) {
+        const isCorrect = option.getAttribute('data-correct') === 'true';
+        if (isCorrect) {
+          option.classList.add('correct');
           resultDiv.innerHTML = `
             <p>תשובה נכונה!</p>
             <div class="team-buttons">
@@ -99,16 +125,25 @@
             </div>
           `;
         } else {
+          option.classList.add('incorrect');
+          options.forEach(opt => {
+            if (opt.getAttribute('data-correct') === 'true') {
+              opt.classList.add('correct');
+            }
+          });
           resultDiv.innerHTML = `
-            <p>תשובה שגויה. התשובה הנכונה היא: ${correctAnswer}</p>
-            <a href="../dash.html" class="return-button">חזור ללוח המשחק</a>
+            <p>תשובה שגויה. התשובה הנכונה היא: התפעל</p>
+            <a href="dash.html" class="return-button">חזור ללוח המשחק</a>
           `;
         }
+        resultDiv.classList.add('show');
       });
     });
+
     function awardPoints(team) {
       let teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
       let teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+
       if (team === 'teamA') {
         teamAScore += 200;
         localStorage.setItem('teamAScore', teamAScore.toString());
@@ -116,8 +151,9 @@
         teamBScore += 200;
         localStorage.setItem('teamBScore', teamBScore.toString());
       }
+
       console.log(`Team A: ${teamAScore}, Team B: ${teamBScore}`);
-      window.location.href = '../dash.html';
+      window.location.href = 'dash.html';
     }
   </script>
 </body>
