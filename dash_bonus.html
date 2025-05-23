@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>שאלות בונוס</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #003366, #0055aa);
+      color: white;
+      padding: 2em;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 1em;
+    }
+    .scores {
+      display: flex;
+      justify-content: center;
+      gap: 3em;
+      margin-bottom: 2em;
+    }
+    .score-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1em 2em;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .bonus-questions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5em;
+    }
+    .question-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1em 2em;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      width: 300px;
+      transition: background-color 0.3s;
+    }
+    .question-card:hover {
+      background-color: #ffffff33;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>שאלות בונוס</h1>
+
+  <div class="scores">
+    <div class="score-box">
+      <h3>קבוצה א'</h3>
+      <p id="teamAScore">0 נקודות</p>
+    </div>
+    <div class="score-box">
+      <h3>קבוצה ב'</h3>
+      <p id="teamBScore">0 נקודות</p>
+    </div>
+  </div>
+
+  <div class="bonus-questions">
+    <a href="bonus1.html" class="question-card">שאלה 1</a>
+    <a href="bonus2.html" class="question-card">שאלה 2</a>
+    <a href="bonus3.html" class="question-card">שאלה 3</a>
+    <a href="bonus4.html" class="question-card">שאלה 4</a>
+    <a href="bonus5.html" class="question-card">שאלה 5</a>
+  </div>
+
+  <script>
+    // Отображение сохранённых очков
+    function updateScores() {
+      const teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
+      const teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+      document.getElementById('teamAScore').textContent = `${teamAScore} נקודות`;
+      document.getElementById('teamBScore').textContent = `${teamBScore} נקודות`;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateScores);
+  </script>
+
+</body>
+</html>
