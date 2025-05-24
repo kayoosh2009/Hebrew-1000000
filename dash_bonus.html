@@ -2,19 +2,19 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>שאלות בונוס</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #003366, #0055aa);
+      background: linear-gradient(to bottom, #002244, #0055aa);
       color: white;
+      text-align: center;
       padding: 2em;
+      margin: 0;
     }
     h1 {
-      text-align: center;
-      font-size: 2.5em;
+      font-size: 2em;
       margin-bottom: 1em;
     }
     .scores {
@@ -29,32 +29,37 @@
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
       text-align: center;
+      min-width: 120px;
     }
-    .bonus-questions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5em;
+    .question-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1em;
+      max-width: 620px;
+      margin: 0 auto;
     }
-    .question-card {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 1em 2em;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      text-align: center;
-      text-decoration: none;
-      color: white;
+    .btn {
+      background-color: #ffaa00;
+      color: #002244;
+      padding: 1em;
       font-size: 1.2em;
-      width: 300px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
       transition: background-color 0.3s;
+      user-select: none;
     }
-    .question-card:hover {
-      background-color: #ffffff33;
+    .btn:hover:not(.locked) {
+      background-color: #ffcc33;
+    }
+    .btn.locked {
+      background-color: #555;
+      color: #aaa;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
-
   <h1>שאלות בונוס</h1>
 
   <div class="scores">
@@ -68,16 +73,51 @@
     </div>
   </div>
 
-  <div class="bonus-questions">
-    <a href="bonus1.html" class="question-card">שאלה 1</a>
-    <a href="bonus2.html" class="question-card">שאלה 2</a>
-    <a href="bonus3.html" class="question-card">שאלה 3</a>
-    <a href="bonus4.html" class="question-card">שאלה 4</a>
-    <a href="bonus5.html" class="question-card">שאלה 5</a>
+  <div class="question-buttons">
+    <button class="btn" onclick="goToQuestion(1)" id="q1">שאלה 1</button>
+    <button class="btn" onclick="goToQuestion(2)" id="q2">שאלה 2</button>
+    <button class="btn" onclick="goToQuestion(3)" id="q3">שאלה 3</button>
+    <button class="btn" onclick="goToQuestion(4)" id="q4">שאלה 4</button>
+    <button class="btn" onclick="goToQuestion(5)" id="q5">שאלה 5</button>
   </div>
 
   <script>
-    // Отображение сохранённых очков
+    const totalQuestions = 5;
+
+    function goToQuestion(num) {
+      const key = `bonus_q${num}_answered`;
+      const btn = document.getElementById(`q${num}`);
+      if (!localStorage.getItem(key)) {
+        // Помечаем вопрос как отвеченный
+        localStorage.setItem(key, 'true');
+        // Блокируем кнопку сразу
+        btn.classList.add('locked');
+        btn.disabled = true;
+        // Переходим на страницу вопроса
+        window.location.href = `bonus${num}.html`;
+      }
+    }
+
+    function updateButtonStates() {
+      let allAnswered = true;
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        const key = `bonus_q${i}_answered`;
+        const btn = document.getElementById(`q${i}`);
+        if (localStorage.getItem(key)) {
+          btn.classList.add('locked');
+          btn.disabled = true;
+        } else {
+          allAnswered = false;
+        }
+      }
+
+      if (allAnswered) {
+        // Все вопросы отвечены — переход на end.html
+        window.location.href = 'end.html';
+      }
+    }
+
     function updateScores() {
       const teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
       const teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
@@ -85,8 +125,10 @@
       document.getElementById('teamBScore').textContent = `${teamBScore} נקודות`;
     }
 
-    document.addEventListener('DOMContentLoaded', updateScores);
+    window.onload = () => {
+      updateScores();
+      updateButtonStates();
+    };
   </script>
-
 </body>
 </html>

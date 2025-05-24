@@ -2,100 +2,115 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>לוח המשחק</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #003366, #0055aa);
       color: white;
       padding: 2em;
+      margin: 0;
       position: relative;
     }
+
     h1 {
       text-align: center;
-      font-size: 2.5em;
-      margin-bottom: 1em;
     }
+
     .scores {
       display: flex;
       justify-content: center;
       gap: 3em;
       margin-bottom: 2em;
     }
+
     .score-box {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255,255,255,0.1);
       padding: 1em 2em;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       text-align: center;
     }
+
     .categories {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2em;
     }
+
     .category {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255,255,255,0.1);
       padding: 1em;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-    .category h2 {
-      margin-bottom: 1em;
-    }
+
     .question-card {
       display: block;
       background-color: #ffffff22;
       margin: 0.5em 0;
       padding: 0.8em;
       border-radius: 8px;
+      text-align: center;
       text-decoration: none;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
-      text-align: center;
     }
+
     .question-card:hover {
       background-color: #ffffff44;
     }
+
     .question-card.disabled {
-      background-color: #555555;
-      color: #aaaaaa;
+      background-color: #555;
+      color: #aaa;
       cursor: not-allowed;
       pointer-events: none;
     }
 
-    #bonusOverlay {
+    #bonusButton {
       display: none;
       position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(255, 255, 0, 0.95);
-      z-index: 1000;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    #bonusOverlay h2 {
-      font-size: 3em;
-      color: #333;
-    }
-    #bonusOverlay button {
-      margin: 1em;
+      bottom: 2em;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: yellow;
+      color: black;
       font-size: 1.5em;
-      padding: 0.8em 2em;
+      padding: 1em 2em;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
+      z-index: 1000;
+    }
+
+    .reset-button {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      background-color: #ffffff22;
+      color: white;
+      padding: 0.8em 1.5em;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .reset-button:hover {
+      opacity: 1;
+      background-color: #ffffff44;
+    }
+
+    body:hover .reset-button {
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
+  <button class="reset-button" onclick="resetGame()">🔄 איפוס</button>
+
   <h1>לוח המשחק</h1>
 
   <div class="scores">
@@ -112,45 +127,39 @@
   <div class="categories">
     <div class="category">
       <h2>שם המספר</h2>
-      <a href="#" class="question-card" id="q1">שאלה 1</a>
-      <a href="#" class="question-card" id="q2">שאלה 2</a>
-      <a href="#" class="question-card" id="q3">שאלה 3</a>
-      <a href="#" class="question-card" id="q4">שאלה 4</a>
-      <a href="#" class="question-card" id="q5">שאלה 5</a>
+      <a href="number_name_question1.html" class="question-card" id="number_name_1">שאלה 1</a>
+      <a href="number_name_question2.html" class="question-card" id="number_name_2">שאלה 2</a>
+      <a href="number_name_question3.html" class="question-card" id="number_name_3">שאלה 3</a>
+      <a href="number_name_question4.html" class="question-card" id="number_name_4">שאלה 4</a>
+      <a href="number_name_question5.html" class="question-card" id="number_name_5">שאלה 5</a>
     </div>
     <div class="category">
       <h2>משקלים</h2>
-      <a href="#" class="question-card" id="q6">שאלה 6</a>
-      <a href="#" class="question-card" id="q7">שאלה 7</a>
-      <a href="#" class="question-card" id="q8">שאלה 8</a>
-      <a href="#" class="question-card" id="q9">שאלה 9</a>
-      <a href="#" class="question-card" id="q10">שאלה 10</a>
+      <a href="weights_question1.html" class="question-card" id="weights_1">שאלה 1</a>
+      <a href="weights_question2.html" class="question-card" id="weights_2">שאלה 2</a>
+      <a href="weights_question3.html" class="question-card" id="weights_3">שאלה 3</a>
+      <a href="weights_question4.html" class="question-card" id="weights_4">שאלה 4</a>
+      <a href="weights_question5.html" class="question-card" id="weights_5">שאלה 5</a>
     </div>
     <div class="category">
       <h2>בניינים</h2>
-      <a href="#" class="question-card" id="q11">שאלה 11</a>
-      <a href="#" class="question-card" id="q12">שאלה 12</a>
-      <a href="#" class="question-card" id="q13">שאלה 13</a>
-      <a href="#" class="question-card" id="q14">שאלה 14</a>
-      <a href="#" class="question-card" id="q15">שאלה 15</a>
+      <a href="binyanim_question1.html" class="question-card" id="binyanim_1">שאלה 1</a>
+      <a href="binyanim_question2.html" class="question-card" id="binyanim_2">שאלה 2</a>
+      <a href="binyanim_question3.html" class="question-card" id="binyanim_3">שאלה 3</a>
+      <a href="binyanim_question4.html" class="question-card" id="binyanim_4">שאלה 4</a>
+      <a href="binyanim_question5.html" class="question-card" id="binyanim_5">שאלה 5</a>
     </div>
   </div>
 
-  <div id="bonusOverlay">
-    <h2 id="countdownText">מתחיל בעוד 20 שניות...</h2>
-    <button onclick="location.href='dash_bonus.html'">שאלות בונוס</button>
-    <button onclick="resetGame()">איפוס</button>
-  </div>
+  <button id="bonusButton" onclick="location.href='dash_bonus.html'">שאלות בונוס</button>
 
   <script>
-    let timerStarted = false;
-
     function disableQuestion(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.add("disabled");
-        localStorage.setItem(id, "disabled");
-        checkAllQuestionsDisabled();
+      const question = document.getElementById(id);
+      if (question) {
+        question.classList.add('disabled');
+        localStorage.setItem(id, 'disabled');
+        checkAllDisabled();
       }
     }
 
@@ -159,6 +168,16 @@
       const teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
       document.getElementById('teamAScore').textContent = `${teamAScore} נקודות`;
       document.getElementById('teamBScore').textContent = `${teamBScore} נקודות`;
+    }
+
+    function checkAllDisabled() {
+      const questions = document.querySelectorAll('.question-card');
+      const total = questions.length;
+      const disabled = Array.from(questions).filter(q => q.classList.contains('disabled')).length;
+
+      if (disabled === total) {
+        document.getElementById('bonusButton').style.display = 'block';
+      }
     }
 
     function resetGame() {
@@ -170,50 +189,23 @@
       localStorage.setItem('teamAScore', '0');
       localStorage.setItem('teamBScore', '0');
       updateScores();
-      document.getElementById("bonusOverlay").style.display = "none";
-      timerStarted = false;
+      document.getElementById('bonusButton').style.display = 'none';
     }
 
-    function checkAllQuestionsDisabled() {
-      const questions = document.querySelectorAll('.question-card');
-      const allDisabled = Array.from(questions).every(q => q.classList.contains('disabled'));
-
-      if (allDisabled && !timerStarted) {
-        startBonusTimer();
-      }
-    }
-
-    function startBonusTimer() {
-      timerStarted = true;
-      const overlay = document.getElementById("bonusOverlay");
-      const countdownText = document.getElementById("countdownText");
-      let seconds = 20;
-
-      overlay.style.display = "flex";
-      countdownText.textContent = `מתחיל בעוד ${seconds} שניות...`;
-
-      const interval = setInterval(() => {
-        seconds--;
-        countdownText.textContent = `מתחיל בעוד ${seconds} שניות...`;
-        if (seconds <= 0) {
-          clearInterval(interval);
-          countdownText.textContent = "";
-        }
-      }, 1000);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener('DOMContentLoaded', () => {
       updateScores();
-
-      document.querySelectorAll(".question-card").forEach(q => {
-        if (localStorage.getItem(q.id) === "disabled") {
-          q.classList.add("disabled");
+      const questions = document.querySelectorAll('.question-card');
+      questions.forEach(question => {
+        const id = question.id;
+        if (localStorage.getItem(id) === 'disabled') {
+          question.classList.add('disabled');
         } else {
-          q.addEventListener("click", () => disableQuestion(q.id));
+          question.addEventListener('click', () => {
+            disableQuestion(id);
+          });
         }
       });
-
-      checkAllQuestionsDisabled();
+      checkAllDisabled();
     });
   </script>
 </body>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>שאלת בונוס 5</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #003366, #0055aa);
+      color: white;
+      padding: 1em;
+      text-align: center;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 1.6em;
+      margin-bottom: 0.5em;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 1.5em;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.7em;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .option {
+      background-color: #ffffff22;
+      padding: 0.6em;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.2s;
+    }
+
+    .option:hover {
+      background-color: #ffffff44;
+    }
+
+    .option.disabled {
+      background-color: #555555;
+      color: #aaaaaa;
+      pointer-events: none;
+    }
+
+    .option.correct {
+      background-color: #28a745;
+    }
+
+    .option.incorrect {
+      background-color: #dc3545;
+    }
+
+    .result {
+      margin-top: 1em;
+      font-size: 1em;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .result.show {
+      opacity: 1;
+    }
+
+    .team-buttons {
+      margin-top: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      align-items: center;
+    }
+
+    .team-button, .award-button {
+      background-color: #ffcc00;
+      color: #003366;
+      padding: 0.6em 1.4em;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .team-button:hover, .award-button:hover {
+      background-color: #ffdb4d;
+    }
+
+    #pointsDisplay {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: yellow;
+      margin-top: 1em;
+    }
+
+    #finalSection {
+      margin-top: 80vh;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>שאלת בונוס 5</h1>
+  <div class="question">מה קורה כששחקן מקבל שני כרטיסים צהובים באותו משחק?</div>
+
+  <div class="options" id="optionsContainer"></div>
+  <div class="result" id="result"></div>
+
+  <div id="pointsDisplay" style="display: none;">0000</div>
+
+  <div id="finalSection">
+    <div id="finalPoints" style="font-size: 1.5em; margin: 1em 0;"></div>
+    <button class="award-button" onclick="awardPoints()">הענק נקודות</button>
+  </div>
+
+  <script>
+    const answers = [
+      { text: "הוא מקבל כרטיס ירוק", correct: false },
+      { text: "לא קורה כלום", correct: false },
+      { text: "הוא מוחלף", correct: false },
+      { text: "הוא מורחק באדום", correct: true }
+    ];
+
+    const optionsContainer = document.getElementById('optionsContainer');
+    const resultDiv = document.getElementById('result');
+    const pointsDisplay = document.getElementById('pointsDisplay');
+    const finalSection = document.getElementById('finalSection');
+    const finalPointsText = document.getElementById('finalPoints');
+
+    let selectedTeam = null;
+    let scoreInterval;
+    let finalPoints = 0;
+    let hasStopped = false;
+
+    answers.forEach(answer => {
+      const div = document.createElement('div');
+      div.classList.add('option');
+      div.textContent = answer.text;
+      div.setAttribute('data-correct', answer.correct);
+      optionsContainer.appendChild(div);
+    });
+
+    const options = document.querySelectorAll('.option');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        options.forEach(opt => opt.classList.add('disabled'));
+
+        const isCorrect = option.getAttribute('data-correct') === 'true';
+        if (isCorrect) {
+          option.classList.add('correct');
+          resultDiv.innerHTML = `
+            <p>תשובה נכונה!</p>
+            <div class="team-buttons">
+              <button class="team-button" onclick="startPoints('teamA')">קבוצה א'</button>
+              <button class="team-button" onclick="startPoints('teamB')">קבוצה ב'</button>
+            </div>
+          `;
+        } else {
+          option.classList.add('incorrect');
+          options.forEach(opt => {
+            if (opt.getAttribute('data-correct') === 'true') {
+              opt.classList.add('correct');
+            }
+          });
+          resultDiv.innerHTML = `
+            <p>תשובה שגויה. התשובה הנכונה היא: הוא מורחק באדום</p>
+            <a href="dash_bonus.html" class="team-button">חזרה</a>
+          `;
+        }
+        resultDiv.classList.add('show');
+      });
+    });
+
+    function startPoints(team) {
+      selectedTeam = team;
+      hasStopped = false;
+      pointsDisplay.style.display = 'block';
+
+      scoreInterval = setInterval(() => {
+        finalPoints = Math.floor(Math.random() * 9000) + 1000;
+        pointsDisplay.textContent = finalPoints;
+      }, 100);
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.code === 'Space' && selectedTeam && !hasStopped) {
+        hasStopped = true;
+        clearInterval(scoreInterval);
+
+        finalPointsText.textContent = `🏆 הקבוצה מקבלת ${finalPoints} נקודות!`;
+        finalSection.style.display = 'block';
+        finalSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    function awardPoints() {
+      let teamAScore = parseInt(localStorage.getItem('teamAScore') || '0', 10);
+      let teamBScore = parseInt(localStorage.getItem('teamBScore') || '0', 10);
+
+      if (selectedTeam === 'teamA') {
+        localStorage.setItem('teamAScore', teamAScore + finalPoints);
+      } else if (selectedTeam === 'teamB') {
+        localStorage.setItem('teamBScore', teamBScore + finalPoints);
+      }
+
+      window.location.href = 'dash_bonus.html';
+    }
+  </script>
+</body>
+</html>
